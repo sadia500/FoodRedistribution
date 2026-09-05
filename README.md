@@ -1,8 +1,10 @@
 # Food Redistribution System
 
-A console-based C++ application that connects food donors with recipient organizations (hospitals, old-age homes, and charities), matching available donations against incoming requests and routing deliveries across a simulated city road network.
+A C++ application that connects food donors with recipient organizations (hospitals, old-age homes, and charities), matching available donations against incoming requests and routing deliveries across a simulated city road network.
 
 The system was built to explore core data structures and algorithms in a practical, real-world scenario rather than in isolation — every DSA concept below maps to an actual operational need in the system (e.g. urgent requests need a priority queue, not just a list; route calculation needs a weighted graph and Dijkstra's algorithm, not a lookup table).
+
+**Live demo:** **[foodredistribution-app.web.app](https://foodredistribution-app.web.app)** — the Firebase Edition, deployed and free to visit, no setup required.
 
 ## Overview
 
@@ -19,7 +21,7 @@ Requests that cannot be immediately fulfilled (due to insufficient stock, expire
 - **Pending request recovery** — failed matches are queued with a specific failure reason (out of stock, insufficient quantity, expired, donation already used) and can be rebooked with updated details
 - **Delivery routing** — computes the shortest path between donor and recipient locations across a 15-location city map
 - **Reporting** — fulfilled delivery history and live system statistics (urgent/pending/delivered counts, donor breakdowns)
-- **Persistent storage** — donors, donations, and all three request queues are saved to and reloaded from CSV files between sessions
+- **Persistent storage** — donors, donations, and all request queues persist between sessions (CSV files in the console edition, Firestore in the web editions)
 
 ## Data Structures & Algorithms
 
@@ -37,14 +39,24 @@ All core structures (`Stack<T>`, `Queue<T>`, `PriorityQueue<T>`, `Graph<T>`, lin
 ## Project Structure
 
 ```
-FoodRedistributionSystem(new)/
+FoodRedistributionSystem(new)/     # Console app — the original, source-of-truth C++ engine
 ├── FoodRedistributionSystem.cpp   # main() — menu-driven UI and program flow
 ├── Redistribution.hpp             # class & template declarations (Donor, FoodDonation, Request, Stack, Queue, PriorityQueue, Graph, Roads)
-├── redistribution.cpp             # implementations: CSV I/O, matching logic, Dijkstra's shortest path, Karachi map data
-└── DSA Report.pdf                 # accompanying project documentation
+└── redistribution.cpp             # implementations: CSV I/O, matching logic, Dijkstra's shortest path, Karachi map data
+
+WebEdition/                        # Same C++ engine behind a local JSON API + web dashboard
+├── server_main.cpp                # httplib-based API server (wraps the console engine's logic)
+├── index.html                     # Web dashboard UI
+├── Dockerfile                     # For deploying to a container host (Render, Fly.io, etc.)
+└── DEPLOY.md                      # Deployment instructions
+
+FirebaseEdition/                   # Client-side JS port — live, permanently free, no server required
+├── index.html                     # Same dashboard UI, wired to Firestore instead of a backend API
+├── firebase-app.js                # DSA logic (Stack, Queue, PriorityQueue, Dijkstra, matching) ported to JavaScript
+└── FIREBASE_DEPLOY.md             # Deployment instructions (Firebase Hosting + Firestore, Spark/free plan)
 ```
 
-## Getting Started
+## Getting Started (Console Edition)
 
 ### Prerequisites
 - Windows (the project uses `<Windows.h>` and `system("cls")` for console handling)
@@ -66,7 +78,15 @@ FoodRedistributionSystem(new)/
 
 ## Web Edition
 
-The same engine is also available behind a small local JSON API (`ConsoleApp` → `WebEdition`), driving a web dashboard — donor/donation management, request submission, live fulfillment runs, and an interactive graph view of the routing network with the actual Dijkstra path highlighted. See `WebEdition/BUILD_INSTRUCTIONS.md`. This runs as a second, independent executable; the original console app is unchanged.
+`WebEdition/` runs the same engine behind a small local JSON API (built with [httplib](https://github.com/yhirose/cpp-httplib)), driving a web dashboard — donor/donation management, request submission, live fulfillment runs, and an interactive graph view of the routing network with the actual Dijkstra path highlighted. This is a second, independent executable; the console app is unchanged. See `WebEdition/BUILD_INSTRUCTIONS.md` to run it locally, or `WebEdition/DEPLOY.md` to deploy it to a container host like Render or Fly.io.
+
+## Firebase Edition (live demo)
+
+`FirebaseEdition/` is a client-side JavaScript port of the same DSA logic — Stack, Queue, PriorityQueue, the Roads graph, Dijkstra's algorithm, and the donation-matching rules are all reimplemented faithfully in `firebase-app.js`, reading and writing Firestore directly instead of talking to a backend server. This lets the whole dashboard run permanently for free on Firebase Hosting's Spark (no credit card) plan, with no server to keep alive and no idle/sleep delay.
+
+It's live at **[foodredistribution-app.web.app](https://foodredistribution-app.web.app)**. See `FirebaseEdition/FIREBASE_DEPLOY.md` for how to deploy your own copy.
+
+The original C++ source (`FoodRedistributionSystem(new)/`, `WebEdition/`) is untouched by this edition — it's a separate, self-contained implementation of the same logic for the web.
 
 ## Notes
 

@@ -38,3 +38,6 @@ Desktop.ini
 *.db-wal
 *.VC.opendb
 DocumentLayout.json
+
+# Build output
+*.exe
