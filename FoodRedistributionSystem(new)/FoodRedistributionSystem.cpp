@@ -1,7 +1,8 @@
-﻿#include "redistribution.hpp"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include "redistribution.hpp"
 #include <iostream>
 #include <stdlib.h>
-#include <Windows.h>
 
 
 using namespace std;

@@ -64,7 +64,11 @@ FoodRedistributionSystem(new)/
 3. Run **Fulfill Urgent Requests** — the system matches it against available donations and prints the shortest route from the donor's location to the recipient's.
 4. Unmatched requests fall into the pending queue with a clear reason, and can be edited and rebooked later.
 
+## Web Edition
+
+The same engine is also available behind a small local JSON API (`ConsoleApp` → `WebEdition`), driving a web dashboard — donor/donation management, request submission, live fulfillment runs, and an interactive graph view of the routing network with the actual Dijkstra path highlighted. See `WebEdition/BUILD_INSTRUCTIONS.md`. This runs as a second, independent executable; the original console app is unchanged.
+
 ## Notes
 
-- Location data (donor/recipient addresses) is currently limited to a fixed set of 15 predefined Karachi neighborhoods used to build the road network graph.
+- Location data (donor/recipient addresses) is currently limited to a fixed set of 15 predefined Karachi neighborhoods used in the UI. The underlying road graph technically has a 16th node (`Gulistan-e-Jauhar`), added implicitly as a waypoint between two of the listed locations, but it's never assignable as a donor/recipient address.
 - Matching logic checks food type, available quantity, donation status, and expiry date (relative to the request date) before confirming a fulfillment.
