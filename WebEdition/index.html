@@ -47,14 +47,10 @@
     display:flex; flex-direction:column; padding:30px 0;
     position:sticky; top:0; height:100vh;
   }
-  .brand{ padding:0 26px 26px; }
-  .brand-mark{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; color:var(--terracotta-deep);
-    background:#FBE7DA; padding:4px 10px; border-radius:20px; font-weight:700;
-  }
-  .brand-name{ font-family:var(--font-head); font-size:22px; font-weight:600; margin-top:14px; line-height:1.25; color:var(--ink); }
-  .brand-sub{ font-size:12.5px; color:var(--muted); margin-top:6px; }
+  .brand{ padding:0 26px 26px; display:flex; align-items:center; gap:11px; }
+  .brand-mark{ width:36px; height:36px; border-radius:10px; flex-shrink:0; background:linear-gradient(135deg, var(--terracotta), var(--terracotta-deep)); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm); }
+  .brand-mark svg{ color:#FFF6EC; }
+  .brand-name{ font-family:var(--font-head); font-size:20px; font-weight:600; line-height:1.25; color:var(--ink); }
 
   nav{ display:flex; flex-direction:column; margin-top:10px; gap:2px; padding:0 14px; }
   .nav-item{
@@ -62,7 +58,8 @@
     border-radius:10px; transition:color .15s, background .15s;
     user-select:none; display:flex; align-items:center; gap:10px;
   }
-  .nav-item .ico{ font-size:16px; opacity:.85; }
+  .nav-item .ico{ display:inline-flex; opacity:.8; flex-shrink:0; }
+  .nav-item .ico svg{ display:block; }
   .nav-item:hover{ color:var(--ink); background:var(--paper-soft); }
   .nav-item.active{ color:var(--terracotta-deep); background:#FBE7DA; }
 
@@ -181,16 +178,15 @@
 
 <div class="sidebar">
   <div class="brand">
-    <div class="brand-mark">🍲 FRS · DISPATCH</div>
+    <div class="brand-mark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11c0 5 4 8 9 8s9-3 9-8"/><path d="M2 11h20"/><path d="M9 3c-1 1-1 2 0 3"/><path d="M14 3c-1 1-1 2 0 3"/></svg></div>
     <div class="brand-name">Food<br>Redistribution</div>
-    <div class="brand-sub">Karachi network</div>
   </div>
   <nav>
-    <div class="nav-item active" data-page="overview"><span class="ico">🏠</span>Overview</div>
-    <div class="nav-item" data-page="donors"><span class="ico">🤝</span>Donors</div>
-    <div class="nav-item" data-page="donations"><span class="ico">🍎</span>Donations</div>
-    <div class="nav-item" data-page="requests"><span class="ico">📋</span>Requests</div>
-    <div class="nav-item" data-page="route"><span class="ico">🗺️</span>Route Finder</div>
+    <div class="nav-item active" data-page="overview"><span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 4l8 7"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg></span>Overview</div>
+    <div class="nav-item" data-page="donors"><span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3"/><path d="M2.5 19c0-3.5 2.7-6 6-6s6 2.5 6 6"/><circle cx="17" cy="8.3" r="2.2"/><path d="M15.3 13.2c2.3.5 3.7 2.4 4.2 5"/></svg></span>Donors</div>
+    <div class="nav-item" data-page="donations"><span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18l-2 11H5L3 8Z"/><path d="M3 8 6 4h12l3 4"/><path d="M9 12v4M15 12v4"/></svg></span>Donations</div>
+    <div class="nav-item" data-page="requests"><span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M8 11h8M8 15h5"/></svg></span>Requests</div>
+    <div class="nav-item" data-page="route"><span class="ico"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.5 7-12a7 7 0 0 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.3"/></svg></span>Route Finder</div>
   </nav>
   <div class="conn">
     <div class="dot" id="connDot"></div>
@@ -291,7 +287,7 @@
     <p class="page-sub">Requests are auto-ranked by organization type — hospitals before old-age homes before charities.</p>
 
     <div class="actions" style="margin-bottom:28px;">
-      <button id="fulfillBtn">✨ Run fulfillment on urgent queue</button>
+      <button id="fulfillBtn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:7px;"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>Run fulfillment on urgent queue</button>
     </div>
     <div id="fulfillResults"></div>
 
